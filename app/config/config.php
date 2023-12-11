@@ -11,5 +11,5 @@ define('DB_PASSWORD', '');
 
 define('URl_APP' , dirname(dirname(__FILE__)));
 define('URL_PROJECT' , 'http://localhost/redsocial');
-define('NAME_PROJECT', 'Red Social');
+define('NAME_PROJECT', 'CAMELIA');
 //echo URl_APP;

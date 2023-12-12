@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 class Base 
 {
     private $host = DB_HOST;
@@ -22,7 +24,7 @@ class Base
 
         try {
             $this->dbh = new PDO($dns, $this->user, $this->password, $option);
-            $this->dbh->exec('set name utf8');
+            $this->dbh->exec('SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci');
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
             echo $this->error;

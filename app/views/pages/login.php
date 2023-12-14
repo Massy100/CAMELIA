@@ -5,7 +5,9 @@ include_once URl_APP . '/views/custom/header.php';
 include_once URl_APP . '/views/custom/navbar.php';
 
 ?>
-
+<?php
+ini_set('display_errors', 1);
+?>
 <body>
     <header>
         <nav class="navbar">
@@ -14,41 +16,37 @@ include_once URl_APP . '/views/custom/navbar.php';
                 <img src="../../public/images/logo_camelia.jpg" alt="logo">
                 <h2>CAMELIA</h2>
             </a>
-            <ul class="links">
-                <span class="close-btn material-symbols-rounded">close</span>
-            </ul>
-            <button class="login-btn">LOG IN</button>
         </nav>
     </header>
-    <?php if (isset($_SESSION['usuarioError'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show mt-2 mb-2" role="alert">
-            <?php echo $_SESSION['usuarioError'] ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <?php unset($_SESSION['usuarioError']); endif ?>
-
-    <?php if (isset($_SESSION['loginComplete'])): ?>
-        <div class="alert alert-sucess alert-dismissible fade show mt-2 mb-2" role="alert">
-            <?php echo $_SESSION['loginComplete'] ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <?php unset($_SESSION['loginComplete']); endif ?>
 
     <div class="blur-bg-overlay"></div>
-    <div class="form-popup">
+    <div class="form-popup show-popup">
         <span class="close-btn material-symbols-rounded">close</span>
         <div class="form-box login">
             <div class="form-details">
                 <h2>Bienvenid@ de nuevo</h2>
                 <p>Inicie sesión con su información personal para mantenerse conectado con nosotros.</p>
+                <?php if (isset($_SESSION['usuarioError'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show mt-2 mb-2" role="alert">
+                        <?php echo $_SESSION['usuarioError'] ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php unset($_SESSION['usuarioError']); endif ?>
+
+                <?php if (isset($_SESSION['loginComplete'])): ?>
+                    <div class="alert alert-sucess alert-dismissible fade show mt-2 mb-2" role="alert">
+                        <?php echo $_SESSION['loginComplete'] ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php unset($_SESSION['loginComplete']); endif ?>
             </div>
             <div class="form-content">
                 <h2>Iniciar sesión</h2>
-                <form action="<?php echo URL_PROJECT ?>/home/login" method="POST">
+                <form action="<?php echo URL_PROJECT ?>/home" method="POST">
                     <div class="input-field">
                         <input name="emailLogin" type="text" required>
                         <label>Email</label>
@@ -73,7 +71,7 @@ include_once URl_APP . '/views/custom/navbar.php';
             </div>
             <div class="form-content">
                 <h2>Registrarse</h2>
-                <form action="<?php echo URL_PROJECT ?>/app/home/login" method="POST">
+                <form action="<?php echo URL_PROJECT ?>/home/login" method="POST">
                     <div class="input-field">
                         <input name="emailRegister" type="text" required>
                         <label>Ingresar su email</label>
@@ -98,6 +96,7 @@ include_once URl_APP . '/views/custom/navbar.php';
             </div>
         </div>
     </div>
+
 </body>
 <?php
 

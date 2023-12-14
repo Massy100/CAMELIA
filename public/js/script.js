@@ -1,31 +1,21 @@
-const navbarMenu = document.querySelector(".navbar .links");
-const hamburgerBtn = document.querySelector(".hamburger-btn");
-const hideMenuBtn = navbarMenu.querySelector(".close-btn");
-const showPopupBtn = document.querySelector(".login-btn");
-const formPopup = document.querySelector(".form-popup");
-const hidePopupBtn = formPopup.querySelector(".close-btn");
-const signupLoginLink = formPopup.querySelectorAll(".bottom-link a");
+document.addEventListener("DOMContentLoaded", function () {
+    const formPopup = document.querySelector(".form-popup");
+    const hidePopupBtn = formPopup.querySelector(".close-btn");
+    const signupLoginLink = formPopup.querySelectorAll(".bottom-link a");
 
-// Show mobile menu
-hamburgerBtn.addEventListener("click", () => {
-    navbarMenu.classList.toggle("show-menu");
-});
+    // Mostrar el formulario emergente
+    formPopup.classList.add("show-popup");
 
-// Hide mobile menu
-hideMenuBtn.addEventListener("click", () =>  hamburgerBtn.click());
+    // Ocultar el formulario emergente al hacer clic en el botón de cierre
+    hidePopupBtn.addEventListener("click", function () {
+        formPopup.classList.remove("show-popup");
+    });
 
-// Show login popup
-showPopupBtn.addEventListener("click", () => {
-    document.body.classList.toggle("show-popup");
-});
-
-// Hide login popup
-hidePopupBtn.addEventListener("click", () => showPopupBtn.click());
-
-// Show or hide signup form
-signupLoginLink.forEach(link => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-        formPopup.classList[link.id === 'signup-link' ? 'add' : 'remove']("show-signup");
+    // Alternar entre los formularios de inicio de sesión y registro
+    signupLoginLink.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            formPopup.classList.toggle("show-signup");
+        });
     });
 });

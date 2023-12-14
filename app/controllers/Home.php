@@ -20,24 +20,34 @@ class Home extends Controller
             $datosRegistro = [
                 'privilegio' => '1',
                 'email' => trim($_POST['emailRegister']),
-                'password' => trim($_POST['passwordRegister'])
+                'password' => password_hash(trim($_POST['passwordRegister']), PASSWORD_DEFAULT)
             ];
-
             if ($this->usuario->verificarUsuario($datosRegistro)) {
                 if ($this->usuario->register($datosRegistro)) {
                     $_SESSION["usuario"] = $datosRegistro['usuario'];
                     $_SESSION['loginComplete'] = 'Tu registro se ha completado satisfactoriamente';
                     redirection('/app/home/login');
                 } else {
-                    
+
                 }
             } else {
                 $_SESSION['usuarioError'] = 'Ese correo electronico ya posee una cuenta';
                 $this->view('pages/login');
             }
+            //if ($this->usuario->verificarUsuario($datosRegistro)) {
+            /* if ($this->usuario->register($datosRegistro)) {
+                
+            } else {
+
+            } */
+            //} else {
+            //$_SESSION['usuarioError'] = 'Ese correo electronico ya posee una cuenta';
+            //$this->view('pages/login');
+            //}
         } else {
             // Muestra la vista del formulario de inicio de sesión
             $this->view('pages/login');
         }
+
     }
 }

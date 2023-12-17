@@ -3,25 +3,27 @@
 class Home extends Controller
 {
     public $usuario;
+    public $materia;
 
     public function __construct()
     {
         $this->usuario = $this->model('usuario');
+        $this->materia = $this->model('materia');
     }
 
     public function index()
     {
-        // $this->view('pages/homepage');
-        if (isset($_SESSION['logueado'])){
-            $this->view('pages/homepage');
+        if (isset($_SESSION['logueado'])) {
+            $datosUsuario = $this->usuario->getUsuario($_SESSION['usuario']);
+            $this->view('pages/homepage', $datosUsuario);
         } else {
-            $this->view('pages/login');   
+            $this->view('pages/login');
         }
     }
 
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $datosLogin = [
                 'email' => trim($_POST['emailLogin']),
                 'password' => trim($_POST['passwordLogin'])
@@ -29,26 +31,26 @@ class Home extends Controller
 
             $datosUsuario = $this->usuario->getUsuario($datosLogin['email']);
 
-            if ($this->usuario->verificarContrasena($datosUsuario, $datosLogin['password'])){
+            if ($this->usuario->verificarContrasena($datosUsuario, $datosLogin['password'])) {
                 if (property_exists($datosUsuario, 'privilegio')) {
                     $_SESSION['logueado'] = $datosUsuario->privilegio;
                     $this->view('pages/homepage');
                 } else {
                     $this->view('pages/homepage');
                 }
-                
-                
+
+
             } else {
                 $_SESSION['errorLogin'] = 'El usuario o la contraseña son incorrectos';
                 redirection('/app/home/login');
             }
 
         } else {
-            if (isset($_SESSION['logueado'])){
+            if (isset($_SESSION['logueado'])) {
                 redirection('/app/pages/homepage');
             } else {
                 $this->view('pages/login');
-            }  
+            }
         }
 
     }
@@ -72,21 +74,38 @@ class Home extends Controller
                 $this->view('pages/login');
             }
         } else {
-            if (isset($_SESSION['logueado'])){
+            if (isset($_SESSION['logueado'])) {
                 redirection('/app/pages/homepage');
             } else {
                 $this->view('pages/login');
-            }  
+            }
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         session_start();
 
         $_SESSION = [];
 
         session_destroy();
 
-        $this->view('pages/login'); 
+        $this->view('pages/login');
+    }
+
+    public function registar_info()
+    {
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $datosMateria = [
+                'materia' => trim($_POST['materia']),
+                'horas' => trim($_POST['horas'])
+            ];
+
+            $this->materia->register($datosMateria);
+        } else {
+            echo "Error: No se recibieron datos del formulario.";
+
+        }
     }
 }
